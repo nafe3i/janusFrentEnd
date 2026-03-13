@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Hello <span id="userName"></span></h1>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const token = localStorage.getItem("ACCESS-TOKEN");
+            const myHeaders = new Headers();
+            myHeaders.append("Accept", "application/json");
+            myHeaders.append("Content-Type", "application/json");
+            myHeaders.append("Authorization", `Bearer ${token}`);
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow",
+            };
+
+            fetch("http://13.62.45.197/api/me", requestOptions)
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result);
+                    const userName = document.querySelector("#userName");
+                    userName.textContent = result["name"];
+                })
+                .catch((error) => console.error(error));
+        });
+    </script>
+</body>
+
+</html>
